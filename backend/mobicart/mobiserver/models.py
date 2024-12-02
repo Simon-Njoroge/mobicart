@@ -166,3 +166,12 @@ class Shipping(models.Model):
         return f"Shipping for Order #{self.order.id}"
 
 
+class Slider(models.Model):
+    title=models.CharField(max_length=255)
+    description=models.TextField(blank=False)
+    image=models.FileField(upload_to='sliders/')
+
+
+    def __str__(self):
+        return self.title
+    

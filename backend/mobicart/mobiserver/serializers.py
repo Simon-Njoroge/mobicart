@@ -1,10 +1,15 @@
 from rest_framework import serializers
-from .models import Product,Category,Order,OrderItem,Cart,Payment,Review,Wishlist,Shipping
+from .models import Product,Category,Order,OrderItem,Cart,Payment,Review,Wishlist,Shipping,Slider
 
 class ProductSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
     class Meta:
         model=Product
         fields='__all__'
+
+    def get_image_url(self, obj):
+        request = self.context.get('request')
+        return request.build_absolute_uri(obj.image_url.url) if obj.image_url else None
 
 class Categoryserializer(serializers.ModelSerializer):
     class Meta:
@@ -52,3 +57,16 @@ class Shippingserializer(serializers.ModelSerializer):
     class Meta:
         model=Shipping
         fields='__all__'
+
+
+
+class sliderserializer(serializers.ModelSerializer):
+
+    image_url = serializers.SerializerMethodField()
+    class Meta:
+        model=Slider
+        fields='__all__'
+
+    def get_image_url(self, obj):
+        request = self.context.get('request')
+        return request.build_absolute_uri(obj.image.url) if obj.image else None

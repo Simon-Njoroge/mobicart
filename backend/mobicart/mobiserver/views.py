@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from . models import Product, Category,Order,OrderItem,Cart,Payment,Review,Wishlist,Shipping
-from . serializers import ProductSerializer,Categoryserializer,Orderserializer,OrderItemserializer,Cartserializer,Paymentserializer,Reviewserializer,Wishlistserializer,Shippingserializer
+from . models import Product, Category,Order,OrderItem,Cart,Payment,Review,Wishlist,Shipping,Slider
+from . serializers import ProductSerializer,Categoryserializer,Orderserializer,OrderItemserializer,Cartserializer,Paymentserializer,Reviewserializer,Wishlistserializer,Shippingserializer,sliderserializer
 from rest_framework import viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
 # Create your views here.
@@ -9,6 +9,57 @@ class ProductViewset(viewsets.ModelViewSet):
          queryset= Product.objects.all()
          serializer_class=ProductSerializer
          parser_classes = (MultiPartParser, FormParser) 
+
+class ProductPhonesViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='2')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser) 
+
+
+class ProductTvViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='3')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser) 
+
+
+class ProductAppliancesViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='4')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser) 
+
+
+class ProductHealthViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='5')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser) 
+
+class ProductHomeViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='6')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser)
+
+
+
+class ProductFashionViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='7')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser)  
+
+class ProductComputingViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='8')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser)  
+
+class ProductSuperViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='9')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser)
+
+
+class ProductBabyViewset(viewsets.ModelViewSet):
+         queryset= Product.objects.filter(category='10')
+         serializer_class=ProductSerializer
+         parser_classes = (MultiPartParser, FormParser)
 
 
 class CategoryViewset(viewsets.ModelViewSet):
@@ -58,3 +109,8 @@ class ShippingViewset(viewsets.ModelViewSet):
         serializer_class=Shippingserializer
         parser_classes=(MultiPartParser,FormParser)
 
+
+class SliderViewset(viewsets.ModelViewSet):
+        queryset=Slider.objects.all()
+        serializer_class=sliderserializer
+        parser_classes=(MultiPartParser,FormParser)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from mobiserver.models import User,Category,Product,Order,OrderItem,Cart,Payment,Review,Wishlist,Shipping
+from mobiserver.models import User,Category,Product,Order,OrderItem,Cart,Payment,Review,Wishlist,Shipping,Slider
 # Register your models here.
 
 from django.contrib.auth.admin import UserAdmin
@@ -33,6 +33,6 @@ admin.site.register(Payment)
 admin.site.register(Wishlist)
 admin.site.register(Review)
 admin.site.register(Shipping)
-
+admin.site.register(Slider)
 
 

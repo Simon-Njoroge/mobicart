@@ -23,7 +23,7 @@ from django.conf import settings
 from rest_framework.routers import DefaultRouter
 
 from rest_framework import routers
-from mobiserver.views import ProductViewset,CategoryViewset,OrderViewset,OrderItemViewset,CartViewset,paymentViewset,ReviewViewset,WishlistViewset,ShippingViewset
+from mobiserver.views import ProductViewset,CategoryViewset,OrderViewset,OrderItemViewset,CartViewset,paymentViewset,ReviewViewset,WishlistViewset,ShippingViewset,ProductPhonesViewset,ProductTvViewset,ProductAppliancesViewset,ProductHealthViewset,ProductHomeViewset,ProductFashionViewset,ProductComputingViewset,ProductSuperViewset,ProductBabyViewset,SliderViewset
 
 router = routers.DefaultRouter()
 router.register('all/products',ProductViewset,basename='products')
@@ -35,7 +35,16 @@ router.register('all/payment',paymentViewset, basename='payment')
 router.register('all/review',ReviewViewset, basename='review')
 router.register('all/wishlist',WishlistViewset, basename='wishlist')
 router.register('all/shipping',ShippingViewset, basename='shipping')
-
+router.register('all/phones',ProductPhonesViewset, basename='phones')
+router.register('all/tvs',ProductTvViewset, basename='tvs')
+router.register('all/appliances',ProductAppliancesViewset, basename='appliances')
+router.register('all/health',ProductHealthViewset, basename='health')
+router.register('all/office',ProductHomeViewset, basename='home')
+router.register('all/fashion',ProductFashionViewset, basename='fashion')
+router.register('all/computing',ProductComputingViewset, basename='computing')
+router.register('all/super',ProductSuperViewset, basename='super')
+router.register('all/baby',ProductBabyViewset, basename='baby')
+router.register('all/slider',SliderViewset, basename='slider')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
