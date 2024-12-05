@@ -27,7 +27,7 @@ function Health() {
               key={heal.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-               <a href={`/learnmore/${heal.id}`}>
+               <a href={`/learnmore/${heal.id}?query=${heal.name}`}>
               <img
                 src={heal.image_url}
                 alt={heal.name}

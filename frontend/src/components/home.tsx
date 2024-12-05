@@ -30,7 +30,7 @@ const Home = () => {
     fetchData()
   }, [])
 
-  console.log(all)
+  // console.log(all)
   return (
     <>
       {/* slider */}
@@ -45,7 +45,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/Phones&Tablets"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all
@@ -69,7 +69,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/TVs&Audio"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all
@@ -94,7 +94,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/Appliances"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all
@@ -118,7 +118,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/Health&Beauty"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all
@@ -141,7 +141,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/Home&Office"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all
@@ -165,7 +165,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/Fashion"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all
@@ -189,7 +189,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/Computing"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all
@@ -213,7 +213,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/Supermarket"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all
@@ -237,7 +237,7 @@ const Home = () => {
           </div>
           <div className="ml-auto">
             <a
-              href="#"
+              href="/BabyProducts"
               className="text-sm font-medium underline hover:text-orange-200 transition"
             >
               See all

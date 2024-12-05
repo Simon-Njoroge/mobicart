@@ -26,7 +26,7 @@ function Tvs() {
               key={tv.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-               <a href={`/learnmore/${tv.id}`}>
+               <a href={`/learnmore/${tv.id}?query=${tv.name}`}>
               <img
                 src={tv.image_url}
                 alt={tv.name}

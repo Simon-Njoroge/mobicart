@@ -13,6 +13,8 @@ import BabyPage from './pages/babyPage';
 import AppliancesPage from './pages/appliancesPage';
 import SuperPage from './pages/superPage';
 import Searched from './components/searched';
+import Signup from './components/signup';
+import Login from './components/login';
 function App() {
  const router = createBrowserRouter([
   {
@@ -65,6 +67,14 @@ function App() {
   {
     path:'/searched',
     element:<Searched/>
+  },
+  {
+    path:'/signup',
+    element:<Signup/>
+  },
+  {
+    path:'/login',
+    element:<Login/>
   }
  ])
 

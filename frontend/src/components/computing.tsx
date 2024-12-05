@@ -27,7 +27,7 @@ function Computing() {
               key={comp.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-              <a href={`/learnmore/${comp.id}`}>
+              <a href={`/learnmore/${comp.id}?query=${comp.name}`}>
               <img
                 src={comp.image_url}
                 alt={comp.name}

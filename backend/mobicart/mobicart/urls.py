@@ -23,7 +23,7 @@ from django.conf import settings
 from rest_framework.routers import DefaultRouter
 
 from rest_framework import routers
-from mobiserver.views import ProductViewset,CategoryViewset,OrderViewset,OrderItemViewset,CartViewset,paymentViewset,ReviewViewset,WishlistViewset,ShippingViewset,ProductPhonesViewset,ProductTvViewset,ProductAppliancesViewset,ProductHealthViewset,ProductHomeViewset,ProductFashionViewset,ProductComputingViewset,ProductSuperViewset,ProductBabyViewset,SliderViewset
+from mobiserver.views import ProductViewset,CategoryViewset,OrderViewset,OrderItemViewset,CartViewset,paymentViewset,ReviewViewset,WishlistViewset,ShippingViewset,ProductPhonesViewset,ProductTvViewset,ProductAppliancesViewset,ProductHealthViewset,ProductHomeViewset,ProductFashionViewset,ProductComputingViewset,ProductSuperViewset,ProductBabyViewset,SliderViewset,UserViewSet,CartUserViewset
 
 router = routers.DefaultRouter()
 router.register('all/products',ProductViewset,basename='products')
@@ -45,6 +45,8 @@ router.register('all/computing',ProductComputingViewset, basename='computing')
 router.register('all/super',ProductSuperViewset, basename='super')
 router.register('all/baby',ProductBabyViewset, basename='baby')
 router.register('all/slider',SliderViewset, basename='slider')
+router.register('all/carts',CartUserViewset, basename='cartuser')
+router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

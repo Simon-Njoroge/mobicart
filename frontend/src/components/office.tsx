@@ -27,7 +27,7 @@ function Office() {
               key={off.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-               <a href={`/learnmore/${off.id}`}>
+               <a href={`/learnmore/${off.id}?query=${off.name}`}>
               <img
                 src={off.image_url}
                 alt={off.name}

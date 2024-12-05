@@ -32,7 +32,7 @@ function Phones() {
               key={phon.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-              <a href={`/learnmore/${phon.id}`}>
+              <a href={`/learnmore/${phon.id}?query=${phon.name}`}>
               <img
                 src={phon.image_url}
                 alt={phon.name}

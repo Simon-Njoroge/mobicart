@@ -27,7 +27,7 @@ function Fashion() {
               key={fash.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-              <a href={`/learnmore/${fash.id}`}>
+              <a href={`/learnmore/${fash.id}?query=${fash.name}`}>
               <img
                 src={fash.image_url}
                 alt={fash.name}

@@ -27,7 +27,7 @@ function Super() {
               key={sup.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-              <a href={`/learnmore/${sup.id}`}>
+              <a href={`/learnmore/${sup.id}?query=${sup.name}`}>
               <img
                 src={sup.image_url}
                 alt={sup.name}

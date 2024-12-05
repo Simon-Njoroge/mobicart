@@ -27,7 +27,7 @@ useEffect(()=>{
               key={app.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-               <a href={`/learnmore/${app.id}`}>
+               <a href={`/learnmore/${app.id}?query=${app.name}`}>
               <img
                 src={app.image_url}
                 alt={app.name}

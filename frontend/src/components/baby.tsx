@@ -28,7 +28,7 @@ function Baby() {
               key={bab.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
             >
-              <a href={`/learnmore/${bab.id}`}>
+              <a href={`/learnmore/${bab.id}?query=${bab.name}`}>
               <img
                 src={bab.image_url}
                 alt={bab.name}
