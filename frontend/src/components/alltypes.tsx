@@ -19,5 +19,6 @@ export type TCart={
     id:number;
     user: string;
     product:string;
-    quantity: string;
+    quantity: number;
+    price:number;
 }

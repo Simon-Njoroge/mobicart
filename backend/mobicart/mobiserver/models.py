@@ -4,8 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-
-
+from django.utils import timezone
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         """
@@ -34,18 +33,18 @@ class UserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
-
 class User(AbstractBaseUser, PermissionsMixin):
-    """
-    Custom user model using email and password for authentication.
-    """
-    email = models.EmailField(unique=True, null=True)
-    phone = models.CharField(max_length=15, unique=True, null=True, blank=True)
-    first_name = models.CharField(max_length=50, blank=True, null=True)
-    last_name = models.CharField(max_length=50, blank=True, null=True)
+    # order_model = models.ManyToManyField(Order, through=Order, blank=True)
+    # wishlist_model = models.ManyToManyField(Wishlist, through=Wishlist, blank=True)
+    # review_model = models.ManyToManyField(Review, through=Review, blank=True)
+    # cart_model = models.ManyToManyField(Cart, through=Cart, blank=True)
+    email = models.EmailField(unique=True, blank=False, null=False, default=False)
+    phone = models.CharField(max_length=15, unique=True, blank=True, null=True , default=False)
+    first_name = models.CharField(max_length=50, blank=True,default=False)
+    last_name = models.CharField(max_length=50, blank=True,default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'  # Use email for login
     REQUIRED_FIELDS = []  # Additional required fields can be added here
@@ -104,6 +103,7 @@ class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    price=models.DecimalField(max_digits=10, decimal_places=2,default=False)
 
     def __str__(self):
         return f"{self.product.name} in {self.user.username}'s cart"
@@ -174,4 +174,4 @@ class Slider(models.Model):
 
     def __str__(self):
         return self.title
-    
+

@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from . models import Product, Category,Order,OrderItem,Cart,Payment,Review,Wishlist,Shipping,Slider,User
-from . serializers import ProductSerializer,Categoryserializer,Orderserializer,OrderItemserializer,Cartserializer,Paymentserializer,Reviewserializer,Wishlistserializer,Shippingserializer,sliderserializer,SignupSerializer, LoginSerializer,UserSerializer
+from . serializers import ProductSerializer,Categoryserializer,Orderserializer,OrderItemserializer,Cartserializer,Paymentserializer,Reviewserializer,Wishlistserializer,Shippingserializer,sliderserializer,SignupSerializer, LoginSerializer
 from rest_framework import viewsets,status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -8,51 +8,49 @@ from rest_framework.decorators import action
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
-# Create your views here.
+from . credentials import MpesaAccessToken, MpesaPassword
+import requests
 class UserViewSet(viewsets.ViewSet):
-    
+
     @action(detail=False, methods=['post'])
     def signup(self, request):
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-            return Response({
-                'message': 'User created successfully',
-                'user': serializer.data
-            }, status=status.HTTP_201_CREATED)
+            try:
+                user = serializer.save()
+                return Response({
+                    'message': 'User created successfully',
+                    'user': serializer.data
+                }, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                print(f"Error during user creation: {e}")
+                return Response({"detail": "An error occurred while creating the user."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=['post'])
     def login(self, request):
-    # Deserialize the request data using the LoginSerializer
-      serializer = LoginSerializer(data=request.data)
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                user = serializer.validated_data['user']
+                refresh = RefreshToken.for_user(user)
 
-      if serializer.is_valid():
-        try:
-            user = serializer.validated_data['user']
-
-            # Ensure that the user object is valid
-            if user is None:
-                return Response({"detail": "Invalid credentials."}, status=status.HTTP_400_BAD_REQUEST)
-
-            # Generate access and refresh tokens
-            refresh = RefreshToken.for_user(user)
-
-            # Serialize the user object to return user details
-            user_serializer = UserSerializer(user)
-
-            return Response({
-                'message': 'Login successful',
-                'access': str(refresh.access_token),
-                'refresh': str(refresh),
-                'user': user_serializer.data  # Return user details here
-            }, status=status.HTTP_200_OK)
-        except Exception as e:
-            # Log the error to the console for debugging purposes
-            print(f"Error during login: {e}")
-            return Response({"detail": "An error occurred while processing your request."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response({
+                    'message': 'Login successful',
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                    'user': {
+                        'email': user.email,
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'phone': getattr(user, 'phone', '')
+                    }
+                }, status=status.HTTP_200_OK)
+            except Exception as e:
+                print(f"Error during login: {e}")
+                return Response({"detail": "An error occurred while processing your request."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class ProductViewset(viewsets.ModelViewSet):
          queryset= Product.objects.all()
          serializer_class=ProductSerializer
@@ -136,16 +134,28 @@ class CartViewset(viewsets.ModelViewSet):
 
 
 
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework import viewsets
+from .models import Cart
+from .serializers import Cartserializer
+
 class CartUserViewset(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = Cartserializer
     parser_classes = (MultiPartParser, FormParser)
 
-    @action(detail=False, methods=['get'], url_path='user-cart-items/(?P<user_id>\d+)')
-    def user_cart_items(self, request, user_id=None):
+    @action(detail=False, methods=['get'], url_path='user-cart-items')
+    def user_cart_items(self, request):
         try:
-            # Query Cart items for the specified user
-            cart_items = Cart.objects.filter(user_id=user_id)
+            # Retrieve the email from the request query parameters or from the authenticated user
+            user_email = request.query_params.get('email')  # Assuming email is passed as a query parameter
+
+            if not user_email:
+                return Response({"detail": "Email parameter is required."}, status=400)
+
+            # Query Cart items for the user with the given email
+            cart_items = Cart.objects.filter(user__email=user_email)
 
             if not cart_items.exists():
                 return Response({"detail": "No cart items found for this user."}, status=404)
@@ -157,6 +167,7 @@ class CartUserViewset(viewsets.ModelViewSet):
         except Exception as e:
             # Handle any unexpected errors
             return Response({"detail": str(e)}, status=500)
+
 
 class paymentViewset(viewsets.ModelViewSet):
         queryset=Payment.objects.all()
@@ -185,3 +196,33 @@ class SliderViewset(viewsets.ModelViewSet):
         queryset=Slider.objects.all()
         serializer_class=sliderserializer
         parser_classes=(MultiPartParser,FormParser)
+def index(request):
+    return render(request,'pay.html')
+
+def stk_push(request):
+    if request.method == "POST":
+        phone_number = request.POST.get('phone_number')
+        amount = request.POST.get('amount')
+
+        access_token = MpesaAccessToken.validated_token
+
+        api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+
+        headers = {"Authorization": "Bearer %s" % access_token}
+        payload={    
+           "BusinessShortCode": MpesaPassword.shortcode,    
+           "Password": MpesaPassword.decoded_password,    
+           "Timestamp":MpesaPassword.timestamp,    
+           "TransactionType": "CustomerPayBillOnline",    
+           "Amount": amount,    
+           "PartyA":phone_number,    
+           "PartyB":MpesaPassword.shortcode,    
+           "PhoneNumber":phone_number,    
+           "CallBackURL": "https://mydomain.com/pat",    
+           "AccountReference":"Test",    
+           "TransactionDesc":"Test"
+}
+        response = requests.post(api_url, json=payload, headers=headers)
+        return redirect('http://localhost:5173/paid')
+def thank_you(request):
+    return render(request,'success.html')

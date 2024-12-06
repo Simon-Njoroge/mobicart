@@ -50,6 +50,6 @@ router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('server/',include('mobiserver.urls')),
+    path('',include('mobiserver.urls')),
     path('api/',include(router.urls))
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

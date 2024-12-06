@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './App.scss'
 import Homepage from './pages/Homepage';
 import CartPage from './pages/cartPage';
 import Learnmore from './components/learnmore';
@@ -15,6 +14,8 @@ import SuperPage from './pages/superPage';
 import Searched from './components/searched';
 import Signup from './components/signup';
 import Login from './components/login';
+import PaymentSuccess from './components/paymentsuccess';
+
 function App() {
  const router = createBrowserRouter([
   {
@@ -75,6 +76,10 @@ function App() {
   {
     path:'/login',
     element:<Login/>
+  },
+  {
+    path:'/paid',
+    element:<PaymentSuccess/>
   }
  ])
 

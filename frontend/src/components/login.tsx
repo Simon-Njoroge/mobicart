@@ -5,16 +5,19 @@ import Footer from "./footer";
 import { backend_url } from "./home";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from "react-redux";
+import { setUser } from "../slices/userslice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [login, setlogin] = useState(false)
+    const [login, setLogin] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
-
     const [error, setError] = useState<string | null>(null);
-
+    const dispatch = useDispatch(); // Use dispatch from Redux
+    const Navigate=useNavigate()
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
@@ -25,25 +28,41 @@ const Login = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setlogin(true)
+        setLogin(true);
         setError(null);
         try {
             const response = await axios.post(`${backend_url}/users/login/`, formData);
             const { refresh, access, user } = response.data;
-            toast.success("logged in successfuly")
 
+            toast.success("Logged in successfully");
+
+            // Dispatch the user data to Redux
+            dispatch(setUser({
+                email: user.email,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                phone: user.phone,
+                isAuthenticated: true
+            }));
+
+            // Save tokens and user info in localStorage
             localStorage.setItem("refreshToken", refresh);
             localStorage.setItem("accessToken", access);
-            localStorage.setItem("user", user);
+            localStorage.setItem("user", JSON.stringify(user));
 
+            // Dispatch({
+            //     type: 'SET_USER',
+            //     payload: user
+            // });
+    
 
-            window.location.href = "/";
+            Navigate('/')
 
         } catch (err) {
             console.error("Login failed:", err);
             setError("Invalid email or password. Please try again.");
-            setlogin(false)
-            toast.error('failed to login')
+            setLogin(false);
+            toast.error('Failed to login');
         }
     };
 
@@ -52,11 +71,6 @@ const Login = () => {
             <Nav />
             <div className="container mx-auto px-4 py-8">
                 <h2 className="text-2xl font-semibold text-center mb-4">Login</h2>
-                {/* {error && (
-          <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
-            {error}
-          </div>
-        )} */}
                 <form
                     onSubmit={handleSubmit}
                     className="max-w-md mx-auto bg-white p-6 shadow rounded-lg"
@@ -101,9 +115,7 @@ const Login = () => {
                         type="submit"
                         className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600"
                     >
-                        {
-                            login ? 'logining you in.....' : 'Login'
-                        }
+                        {login ? 'Logging you in.....' : 'Login'}
                     </button>
                 </form>
             </div>
