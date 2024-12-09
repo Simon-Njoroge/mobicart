@@ -8,7 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from "react-redux";
 import { setUser } from "../slices/userslice";
 import { useNavigate } from "react-router-dom";
-
+interface LoginD{
+email:string;
+firstName:string;
+lastName:string;
+phone:number;
+isAuthenticated:boolean
+}
 const Login = () => {
     const [login, setLogin] = useState(false);
     const [formData, setFormData] = useState({

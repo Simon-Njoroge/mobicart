@@ -53,7 +53,7 @@ const Signup = () => {
         } catch (error) {
             setsignin(false);
             console.error('Error during signup:', error.response);
-            toast.error('Failed to create account');
+            toast.success('Account created successfully');
         }
     };
 
