@@ -139,7 +139,7 @@ const Nav = () => {
           <div className="relative group">
             <button className="flex items-center gap-2 text-gray-800 hover:text-orange-500">
               <User size={20} />
-              <span>Account: {user.firstName || 'Guest'}</span>
+              <span>Account</span>
             </button>
             <div className="absolute hidden group-hover:block bg-white shadow-lg rounded-lg mt-0 right-0 w-48">
               <ul className="text-gray-800">

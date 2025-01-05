@@ -196,6 +196,7 @@ class SliderViewset(viewsets.ModelViewSet):
         queryset=Slider.objects.all()
         serializer_class=sliderserializer
         parser_classes=(MultiPartParser,FormParser)
+        
 def index(request):
     return render(request,'pay.html')
 
